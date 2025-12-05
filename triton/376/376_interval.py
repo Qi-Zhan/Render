@@ -89,12 +89,18 @@ K = 128
 D = 64
 M = 10
 
-torch_features = torch.randn(N, K, D).cuda()
-torch_weights = torch.randn(M, D, D).cuda()
+# torch_features = torch.randn(N, K, D).cuda()
+# torch_weights = torch.randn(M, D, D).cuda()
+# indices = torch.randint(low=0, high=M, size=(N, K)).long().cuda()
+
+inputs = torch.load("inputs.pt", weights_only=True)
+torch_features = inputs["features"]
+indices = inputs["indices"]
+torch_weights = inputs["weights"]
+
 triton_features = torch_features.clone().detach()
 triton_weights = torch_weights.clone().detach()
 
-indices = torch.randint(low=0, high=M, size=(N, K)).long().cuda()
 triton_output = my_function(triton_features, indices.int(), triton_weights)
 
 print(triton_output)

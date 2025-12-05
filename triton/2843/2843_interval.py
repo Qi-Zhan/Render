@@ -36,9 +36,12 @@ def test_kernel(
 
 m, k, n = 64, 64, 64
 
-torch.manual_seed(0)
-x = torch.randn(size=[m, k], dtype=torch.float64, device="cuda")
-y = torch.randn(size=[k, n], dtype=torch.float64, device="cuda")
+# torch.manual_seed(0)
+# x = torch.randn(size=[m, k], dtype=torch.float64, device="cuda")
+# y = torch.randn(size=[k, n], dtype=torch.float64, device="cuda")
+inputs = torch.load("inputs.pt", weights_only=True)
+x = inputs["x"]
+y = inputs["y"]
 o = torch.zeros(size=[m, n], dtype=torch.float32, device="cuda")
 test_kernel[(1,)](
     x.to(torch.float32),

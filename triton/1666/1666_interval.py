@@ -173,10 +173,13 @@ def matmul(a, b, activation=""):
 
 
 if __name__ == "__main__":
-    torch.manual_seed(0)
+    # torch.manual_seed(0)
 
-    a = torch.randn((1, 512), device="cuda", dtype=torch.float16)
-    b = torch.randn((1, 512), device="cuda", dtype=torch.float16)
+    # a = torch.randn((1, 512), device="cuda", dtype=torch.float16)
+    # b = torch.randn((1, 512), device="cuda", dtype=torch.float16)
+    inputs = torch.load("inputs.pt", weights_only=True)
+    a = inputs["a"]
+    b = inputs["b"]
     torch_output = torch.matmul(a.T, b)
     from interval import IntervalArray
 

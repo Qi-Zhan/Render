@@ -700,22 +700,26 @@ DEVICE = "cuda"
 
 
 def test_op(Z, H, N_CTX, HEAD_DIM, causal, dtype):
-    torch.manual_seed(20)
-    q = (
-        torch.empty((Z, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE)
-        .normal_(mean=0.0, std=0.5)
-        .requires_grad_()
-    )
-    k = (
-        torch.empty((Z, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE)
-        .normal_(mean=0.0, std=0.5)
-        .requires_grad_()
-    )
-    v = (
-        torch.empty((Z, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE)
-        .normal_(mean=0.0, std=0.5)
-        .requires_grad_()
-    )
+    # torch.manual_seed(20)
+    # q = (
+    #     torch.empty((Z, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE)
+    #     .normal_(mean=0.0, std=0.5)
+    #     .requires_grad_()
+    # )
+    # k = (
+    #     torch.empty((Z, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE)
+    #     .normal_(mean=0.0, std=0.5)
+    #     .requires_grad_()
+    # )
+    # v = (
+    #     torch.empty((Z, H, N_CTX, HEAD_DIM), dtype=dtype, device=DEVICE)
+    #     .normal_(mean=0.0, std=0.5)
+    #     .requires_grad_()
+    # )
+    inputs = torch.load("inputs.pt", weights_only=True)
+    q = inputs["q"]
+    k = inputs["k"]
+    v = inputs["v"]
     sm_scale = 0.5
     tri_out = attention(q, k, v, causal, sm_scale).to(dtype)
     interpreter_builder.store_interval()

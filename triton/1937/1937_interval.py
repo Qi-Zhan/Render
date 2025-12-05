@@ -142,9 +142,13 @@ def linear(input, weight):
 #
 # We can test our custom Linear against torch Linear
 
-torch.manual_seed(0)
-a = torch.randn((256, 128), device="cuda", dtype=torch.float32)
-b = torch.randn((512, 128), device="cuda", dtype=torch.float32)
+# torch.manual_seed(0)
+# a = torch.randn((256, 128), device="cuda", dtype=torch.float32)
+# b = torch.randn((512, 128), device="cuda", dtype=torch.float32)
+inputs = torch.load("inputs.pt", weights_only=True)
+a = inputs["a"]
+b = inputs["b"]
+
 triton_output = linear(a, b)
 torch_output = torch.nn.functional.linear(a, b)
 print(f"triton_output={triton_output}")

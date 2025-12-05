@@ -136,9 +136,12 @@ def linear(input, weight):
     return c
 
 
-torch.manual_seed(0)
-a = torch.randn((256, 128), device="cuda", dtype=torch.float32)
-b = torch.randn((512, 128), device="cuda", dtype=torch.float32)
+# torch.manual_seed(0)
+# a = torch.randn((256, 128), device="cuda", dtype=torch.float32)
+# b = torch.randn((512, 128), device="cuda", dtype=torch.float32)
+inputs = torch.load("inputs.pt", weights_only=True)
+a = inputs["a"]
+b = inputs["b"]
 triton_output = linear(a, b)
 print(f"triton_output={triton_output}")
 

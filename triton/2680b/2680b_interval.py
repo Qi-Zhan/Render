@@ -230,8 +230,13 @@ def matmul(a, b, activation=""):
     return c
 
 
-torch.manual_seed(0)
-a = torch.randn((379, 258), device="cuda", dtype=torch.float16)
-b = torch.randn((258, 543), device="cuda", dtype=torch.float16)
+# torch.manual_seed(0)
+# a = torch.randn((379, 258), device="cuda", dtype=torch.float16)
+# b = torch.randn((258, 543), device="cuda", dtype=torch.float16)
+
+inputs = torch.load("inputs.pt", weights_only=True)
+a = inputs["a"]
+b = inputs["b"]
+
 triton_output = matmul(a, b)
 interpreter_builder.store_interval()

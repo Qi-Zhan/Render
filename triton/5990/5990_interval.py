@@ -123,8 +123,11 @@ def matmul(a, b, BLOCK_SIZE_M=64, BLOCK_SIZE_N=64, BLOCK_SIZE_K=64, GROUP_SIZE_M
 torch.manual_seed(0)
 dtype = torch.float16
 size = 511
-a = torch.randn((size, size), dtype=dtype, device="cuda")
-b = torch.randn((size, size), dtype=dtype, device="cuda")
+# a = torch.randn((size, size), dtype=dtype, device="cuda")
+# b = torch.randn((size, size), dtype=dtype, device="cuda")
+inputs = torch.load("inputs.pt", weights_only=True)
+a = inputs["a"]
+b = inputs["b"]
 triton_output = matmul(a, b)
 
     

@@ -2,11 +2,15 @@ import torch
 import triton.language as tl
 import triton
 
-torch.manual_seed(0)
+# torch.manual_seed(0)
 
-N = 64
-A = torch.rand(N, N, dtype=torch.float32).cuda() * 10.0
-B = torch.rand(N, N, dtype=torch.float32).cuda() * 10.0
+# N = 64
+# A = torch.rand(N, N, dtype=torch.float32).cuda() * 10.0
+# B = torch.rand(N, N, dtype=torch.float32).cuda() * 10.0
+
+inputs = torch.load("inputs.pt", weights_only=True)
+A = inputs["A"]
+B = inputs["B"]
 
 @triton.jit
 def matmul_kernel(a_ptr, b_ptr, c_ptr, N: tl.constexpr, allow_tf32: tl.constexpr):

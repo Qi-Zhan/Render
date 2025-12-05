@@ -46,8 +46,11 @@ def test_case():
     torch.random.manual_seed(1)
 
     T = 16
-    k = torch.randn((T, T), device="cuda")
-    v = torch.randn((T, T), device="cuda")
+    # k = torch.randn((T, T), device="cuda")
+    # v = torch.randn((T, T), device="cuda")
+    inputs = torch.load("inputs.pt", weights_only=True)
+    k = inputs["k"]
+    v = inputs["v"]
     out = torch.zeros((T, T), device="cuda")
 
     test_kernel[(1,)](

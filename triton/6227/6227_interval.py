@@ -737,9 +737,10 @@ if torch.cuda.is_available():
     torch.cuda.manual_seed_all(42)
 device = torch.device("cuda")
 dmodel = 128
-inputs = torch.randn(
-    (10000, dmodel), dtype=torch.float32, device=device, requires_grad=True
-)
+# inputs = torch.randn(
+#     (10000, dmodel), dtype=torch.float32, device=device, requires_grad=True
+# )
+inputs = torch.load("inputs.pt", weights_only=True)
 device = device
 dmodel = dmodel
 

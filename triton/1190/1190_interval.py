@@ -120,10 +120,13 @@ class _matmul(torch.autograd.Function):
 matmul = _matmul.apply
 
 
-torch.manual_seed(123)
-a = torch.rand(1024, 1024).cuda().float()
-b = torch.rand(1024, 512).cuda().float()
+# torch.manual_seed(123)
+# a = torch.rand(1024, 1024).cuda().float()
+# b = torch.rand(1024, 512).cuda().float()
 
+inputs = torch.load("inputs.pt", weights_only=True)
+a = inputs["a"]
+b = inputs["b"]
 c = matmul(a, b)
 
 

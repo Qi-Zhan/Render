@@ -175,22 +175,26 @@ Z, H, N_CTX, D_HEAD = 4, 48, 1024, 64
 
 
 def test_op(Z, H, N_CTX, D_HEAD, dtype=torch.float32):
-    torch.manual_seed(20)
-    q = (
-        torch.empty((Z, H, N_CTX, D_HEAD), dtype=dtype, device="cuda")
-        .normal_(mean=0.1, std=0.2)
-        .requires_grad_()
-    )
-    k = (
-        torch.empty((Z, H, N_CTX, D_HEAD), dtype=dtype, device="cuda")
-        .normal_(mean=0.4, std=0.2)
-        .requires_grad_()
-    )
-    v = (
-        torch.empty((Z, H, N_CTX, D_HEAD), dtype=dtype, device="cuda")
-        .normal_(mean=0.3, std=0.2)
-        .requires_grad_()
-    )
+    # torch.manual_seed(20)
+    # q = (
+    #     torch.empty((Z, H, N_CTX, D_HEAD), dtype=dtype, device="cuda")
+    #     .normal_(mean=0.1, std=0.2)
+    #     .requires_grad_()
+    # )
+    # k = (
+    #     torch.empty((Z, H, N_CTX, D_HEAD), dtype=dtype, device="cuda")
+    #     .normal_(mean=0.4, std=0.2)
+    #     .requires_grad_()
+    # )
+    # v = (
+    #     torch.empty((Z, H, N_CTX, D_HEAD), dtype=dtype, device="cuda")
+    #     .normal_(mean=0.3, std=0.2)
+    #     .requires_grad_()
+    # )
+    inputs = torch.load("inputs.pt", weights_only=True)
+    q = inputs["q"]
+    k = inputs["k"]
+    v = inputs["v"]
     sm_scale = 0.2
     tri_out = attention(q, k, v, sm_scale)
 

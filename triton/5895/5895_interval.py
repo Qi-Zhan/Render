@@ -99,17 +99,21 @@ def torch_func(a, b):
 M = 3
 N = 2
 dim_hidden = 4
-torch.manual_seed(91356303)
+# torch.manual_seed(91356303)
 
-a = torch.empty((M, N), requires_grad=True, device=DEVICE, dtype=torch.float32)
-with torch.no_grad():
-    a.normal_(mean=0.0, std=10.0)
-b = (
-    torch.empty(dim_hidden, N)
-    .uniform_(-1.0 * math.sqrt(1.0 / N), math.sqrt(1.0 / N))
-    .to(a.device)
-    .to(a.dtype)
-)
+# a = torch.empty((M, N), requires_grad=True, device=DEVICE, dtype=torch.float32)
+# with torch.no_grad():
+#     a.normal_(mean=0.0, std=10.0)
+# b = (
+#     torch.empty(dim_hidden, N)
+#     .uniform_(-1.0 * math.sqrt(1.0 / N), math.sqrt(1.0 / N))
+#     .to(a.device)
+#     .to(a.dtype)
+# )
+
+inputs = torch.load("inputs.pt", weights_only=True)
+a = inputs["a"]
+b = inputs["b"]
 
 output_triton = matrix_multiplication(a, b)
 

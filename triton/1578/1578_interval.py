@@ -30,10 +30,13 @@ def test_kernel(
 
 from interval import IntervalArray
 
-torch.manual_seed(0)
+# torch.manual_seed(0)
 
-x = torch.randn((100, 100), dtype=torch.float32, device="cuda")
-y = torch.randn((100, 100), dtype=torch.float32, device="cuda")
+# x = torch.randn((100, 100), dtype=torch.float32, device="cuda")
+# y = torch.randn((100, 100), dtype=torch.float32, device="cuda")
+inputs = torch.load("inputs.pt", weights_only=True)
+x = inputs["x"]
+y = inputs["y"]
 n_size = x.numel()
 
 ref = x * y + x

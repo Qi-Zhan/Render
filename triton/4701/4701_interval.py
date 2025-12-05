@@ -180,10 +180,15 @@ def addmm(
 
 device = "cuda"
 
-torch.manual_seed(342)
-a = torch.randn((3, 4, 3), device=device, dtype=torch.float16)
-b = torch.randn((3, 3, 4), device=device, dtype=torch.float16)
-c = torch.randn((3, 4, 4), device=device, dtype=torch.float16).uniform_(-1, 1)
+# torch.manual_seed(342)
+# a = torch.randn((3, 4, 3), device=device, dtype=torch.float16)
+# b = torch.randn((3, 3, 4), device=device, dtype=torch.float16)
+# c = torch.randn((3, 4, 4), device=device, dtype=torch.float16).uniform_(-1, 1)
+
+inputs = torch.load("inputs.pt", weights_only=True)
+a = inputs["a"]
+b = inputs["b"]
+c = inputs["c"]
 
 from interval import IntervalArray
 d = a @ b + c
