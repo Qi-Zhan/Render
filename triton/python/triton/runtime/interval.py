@@ -506,57 +506,6 @@ class IntervalArray:
     def __ge__(self, other):
         return self
 
-@numba.njit()
-def _matmul(
-    a_low: np.ndarray,
-    a_high: np.ndarray,
-    b_low: np.ndarray,
-    b_high: np.ndarray,
-    mul_eps,
-    add_eps,
-):
-    n, m = a_low.shape
-    m, k = b_low.shape
-    c_low = np.zeros((n, k))
-    c_high = np.zeros((n, k))
-    # add_eps = (m - 1) * add_eps
-    for i in range(n):
-        for j in range(k):
-            lo_res = 0
-            hi_res = 0
-            a_low_i = a_low[i, :]
-            a_high_i = a_high[i, :]
-            b_low_j = b_low[:, j]
-            b_high_j = b_high[:, j]
-
-            a_low_b_low = np.multiply(a_low_i, b_low_j)
-            a_low_b_high = np.multiply(a_low_i, b_high_j)
-            a_high_b_low = np.multiply(a_high_i, b_low_j)
-            a_high_b_high = np.multiply(a_high_i, b_high_j)
-            # minimum of four values
-            lo = np.minimum(a_low_b_low, a_low_b_high)
-            lo = np.minimum(lo, a_high_b_low)
-            lo = np.minimum(lo, a_high_b_high)
-            # maximum of four values
-            hi = np.maximum(a_low_b_low, a_low_b_high)
-            hi = np.maximum(hi, a_high_b_low)
-            hi = np.maximum(hi, a_high_b_high)
-
-            lo = np.where(lo >= 0, lo * (1 - mul_eps), lo * (1 + mul_eps))
-            hi = np.where(hi >= 0, hi * (1 + mul_eps), hi * (1 - mul_eps))
-            # lo_res, hi_res = np.sum(lo), np.sum(hi)
-            # lo_res = np.where(lo_res >= 0, lo_res * (1 - add_eps), lo_res * (1 + add_eps))
-            # hi_res = np.where(hi_res >= 0, hi_res * (1 + add_eps), hi_res * (1 - add_eps))
-            lo = make_interval(lo, add_eps)
-            hi = make_interval(hi, add_eps)
-            lo_res = np.sum(lo)
-            hi_res = np.sum(hi)
-            lo_res = lo_res.left
-            hi_res = hi_res.right
-            c_low[i, j] = lo_res
-            c_high[i, j] = hi_res
-    return c_low, c_high
-
 
 @numba.njit()
 def _matmul(
